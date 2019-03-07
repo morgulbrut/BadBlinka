@@ -25,8 +25,8 @@ dotstar = adafruit_dotstar.DotStar(board.APA102_SCK, board.APA102_MOSI, 1)
 dotstar[0] = (0,120,120)
 
 def payload():
-    {{ . }}
-    pass
+{{ . }}
+
 
 while True:
     while not key_pin.value:

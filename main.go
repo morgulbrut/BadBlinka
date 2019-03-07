@@ -49,7 +49,7 @@ func processLine(s string) string {
 	case "REM":
 		return "    # " + strings.Join(params, " ")
 	case "STRING":
-		return "    keyboard_layout.write(" + strings.Join(params, " ") + ")"
+		return "    keyboard_layout.write(\"" + strings.Join(params, " ") + "\")"
 	case "DELAY":
 		t, err := strconv.ParseFloat(params[0], 64)
 		if err != nil {
@@ -83,12 +83,12 @@ func executeTemplate(s string) {
 		os.Exit(1)
 	}
 
-	w := bufio.NewWriter(f)
+	//w := bufio.NewWriter(f)
 
 	t, err := template.ParseFiles("code_template.py")
 	if err != nil {
 		color.Red("ERROR: template parsing fail")
 		os.Exit(1)
 	}
-	t.Execute(w, s)
+	t.Execute(f, s)
 }
