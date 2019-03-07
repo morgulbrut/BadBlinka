@@ -1,0 +1,4 @@
+REM this is a comment
+DELAY 500
+GUI t
+STRING u got pwnd
