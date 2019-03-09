@@ -12,7 +12,20 @@ import (
 )
 
 func main() {
+	var payloads []string
+	counter := 1
+	for counter < len(os.Args) {
+		payloads = append(payloads, readFile(os.Args[counter], counter))
+		counter++
+	}
+	executeTemplate(strings.Join(payloads, "\n\n\n"))
+}
+
+func readFile(f string, c int) string {
+
 	var payload []string
+	payload = append(payload, fmt.Sprintf("def payload_%d():", c))
+
 	if len(os.Args) <= 1 {
 		color.Red("ERROR: Exepted DuckyScript file")
 		os.Exit(1)
@@ -20,7 +33,7 @@ func main() {
 
 	color.Green("Compiling DuckyScript")
 
-	file, err := os.Open(os.Args[1])
+	file, err := os.Open(f)
 	if err != nil {
 		color.Red("ERROR: File not found")
 		os.Exit(1)
@@ -36,9 +49,7 @@ func main() {
 		color.Red("ERROR: Could not read file")
 		os.Exit(1)
 	}
-
-	executeTemplate(strings.Join(payload, "\n"))
-
+	return strings.Join(payload, "\n")
 }
 
 func processLine(s string) string {
@@ -67,7 +78,7 @@ func processLine(s string) string {
 			return "    keyboard.press(Keycode." + cmd + ", Keycode." + key + ")\n    keyboard.release_all()"
 		}
 	case "DELETE", "HOME", "INSERT", "PAGE_UP", "PAGE_DOWN", "UP_ARROW", "DOWN_ARROW", "LEFT_ARROW", "RIGHT_ARROW", "TAB",
-		"END", "ESCAPE":
+		"END", "ESCAPE", "ENTER":
 		return "    keyboard.press(Keycode." + cmd + ")\n    keyboard.release_all()"
 	default:
 		return "    # UNDEFINED: " + s
@@ -82,9 +93,6 @@ func executeTemplate(s string) {
 		color.Red("ERROR: template parsing fail")
 		os.Exit(1)
 	}
-
-	//w := bufio.NewWriter(f)
-
 	t, err := template.ParseFiles("code_template.py")
 	if err != nil {
 		color.Red("ERROR: template parsing fail")
