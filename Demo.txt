@@ -1,4 +1,6 @@
-REM this is a comment
-DELAY 500
+REM u got Pownied
 GUI t
-STRING u got pwnd
+DELAY 500
+REM US Keyboard, thats why
+STRING ponzsaz u got pwnd
+ENTER
