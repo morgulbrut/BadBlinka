@@ -1,5 +1,4 @@
-
-# CircuitPython demo - Keyboard emulator
+# Mini SAM template
  
 import time
 import board
@@ -35,7 +34,7 @@ while True:
         pass  # Wait for it to be ungrounded!
 
     dotstar[0] = (120,0,0) 
-    payload_1()
+    payload_0()
      
     time.sleep(0.5)
     dotstar[0] = (0,120,0)
