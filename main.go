@@ -2,23 +2,34 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
+	"html/template"
 	"os"
 	"strconv"
 	"strings"
-	template "text/template"
 
 	"github.com/fatih/color"
 )
 
 func main() {
+	var template string
+	var pf string
 	var payloads []string
-	counter := 1
-	for counter < len(os.Args) {
-		payloads = append(payloads, readFile(os.Args[counter], counter))
+	flag.StringVar(&template, "t", "code_template.py", "Template for code.py generation")
+	flag.StringVar(&pf, "p", "", "payload files")
+	flag.Parse()
+	color.Green(template)
+	color.Green(pf)
+
+	counter := 0
+	pfls := strings.Split(pf, " ")
+	for counter < len(pfls) {
+		payloads = append(payloads, readFile(pfls[counter], counter))
 		counter++
 	}
-	executeTemplate(strings.Join(payloads, "\n\n\n"))
+
+	executeTemplate(strings.Join(payloads, "\n\n\n"), template)
 }
 
 func readFile(f string, c int) string {
@@ -60,7 +71,7 @@ func processLine(s string) string {
 	case "REM":
 		return "    # " + strings.Join(params, " ")
 	case "STRING":
-		return "    keyboard_layout.write(\"" + strings.Join(params, " ") + "\")"
+		return "    keyboard_layout.write('" + strings.Join(params, " ") + "')"
 	case "DELAY":
 		t, err := strconv.ParseFloat(params[0], 64)
 		if err != nil {
@@ -85,15 +96,14 @@ func processLine(s string) string {
 	}
 }
 
-func executeTemplate(s string) {
+func executeTemplate(s, temp string) {
 	color.Yellow(s)
-
 	f, err := os.Create("code.py")
 	if err != nil {
 		color.Red("ERROR: template parsing fail")
 		os.Exit(1)
 	}
-	t, err := template.ParseFiles("code_template.py")
+	t, err := template.ParseFiles(temp)
 	if err != nil {
 		color.Red("ERROR: template parsing fail")
 		os.Exit(1)
