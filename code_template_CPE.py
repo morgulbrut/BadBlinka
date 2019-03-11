@@ -15,7 +15,7 @@ keyboard_layout = KeyboardLayoutUS(keyboard)  # We're in the US :)
 
 # Imports and initialization for my board and usecase
 import neopixel
-import digitalio
+from digitalio import DigitalInOut, Direction, Pull
 
 buttonA = DigitalInOut(board.BUTTON_A)
 buttonB = DigitalInOut(board.BUTTON_B)
@@ -36,15 +36,16 @@ pixels.show()
 # My example usecase
 while True:
     if buttonA.value:  # button A is pushed
-        pixels.fill(((120,0,0))
+        pixels.fill((120,0,0))
         pixels.show()
         payload_0()
         pixels.fill((0,120,0))
         pixels.show()
     if buttonB.value:  # button B is pushed
-        pixels.fill(((120,50,0))
+        pixels.fill((120,50,0))
         pixels.show()
         payload_1()
         pixels.fill((0,120,50))
         pixels.show()
-    delay(.01)
+    time.sleep(.01)
+
