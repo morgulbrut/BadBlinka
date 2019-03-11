@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"html/template"
 	"os"
 	"strconv"
 	"strings"
+	"text/template"
 
 	"github.com/fatih/color"
 )
@@ -71,7 +71,7 @@ func processLine(s string) string {
 	case "REM":
 		return "    # " + strings.Join(params, " ")
 	case "STRING":
-		return "    keyboard_layout.write('" + strings.Join(params, " ") + "')"
+		return "    keyboard_layout.write(\"" + strings.Join(params, " ") + "\")"
 	case "DELAY":
 		t, err := strconv.ParseFloat(params[0], 64)
 		if err != nil {
