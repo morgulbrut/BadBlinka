@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/fatih/color"
+	"github.com/morgulbrut/color256"
 )
 
 
@@ -33,8 +33,8 @@ func main() {
 	flag.StringVar(&template, "t", "code_template.py", "Template for code.py generation, see examples in the repository")
 	flag.StringVar(&pf, "p", "", "DuckyScript DuckyScript payloads, get included into yout template as payload_0() to payload_n().")
 	flag.Parse()
-	color.Green(template)
-	color.Green(pf)
+	color256.PrintHiGreen(template)
+	color256.PrintHiGreen(pf)
 
 	counter := 0
 	pfls := strings.Split(pf, " ")
@@ -52,15 +52,15 @@ func readFile(f string, c int) string {
 	payload = append(payload, fmt.Sprintf("def payload_%d():", c))
 
 	if len(os.Args) <= 1 {
-		color.Red("ERROR: Exepted DuckyScript file")
+		color256.PrintHiRed("ERROR: Exepted DuckyScript file")
 		os.Exit(1)
 	}
 
-	color.Green("Compiling DuckyScript")
+	color256.PrintHiGreen("Compiling DuckyScript")
 
 	file, err := os.Open(f)
 	if err != nil {
-		color.Red("ERROR: File not found")
+		color256.PrintHiRed("ERROR: File not found")
 		os.Exit(1)
 	}
 	defer file.Close()
@@ -71,7 +71,7 @@ func readFile(f string, c int) string {
 	}
 
 	if err := scanner.Err(); err != nil {
-		color.Red("ERROR: Could not read file")
+		color256.PrintHiRed("ERROR: Could not read file")
 		os.Exit(1)
 	}
 	return strings.Join(payload, "\n")
@@ -89,7 +89,7 @@ func processLine(s string) string {
 	case "DELAY":
 		t, err := strconv.ParseFloat(params[0], 64)
 		if err != nil {
-			color.Red("ERROR: DELAY: Missing param")
+			color256.PrintHiRed("ERROR: DELAY: Missing param")
 			os.Exit(1)
 		}
 		return fmt.Sprintf("    time.sleep(%0.1f)", t/1000)
@@ -111,15 +111,15 @@ func processLine(s string) string {
 }
 
 func executeTemplate(s, temp string) {
-	color.Yellow(s)
+	color256.PrintHiYellow(s)
 	f, err := os.Create("code.py")
 	if err != nil {
-		color.Red("ERROR: template parsing fail")
+		color256.PrintHiRed("ERROR: template parsing fail")
 		os.Exit(1)
 	}
 	t, err := template.ParseFiles(temp)
 	if err != nil {
-		color.Red("ERROR: template parsing fail")
+		color256.PrintHiRed("ERROR: template parsing fail")
 		os.Exit(1)
 	}
 	t.Execute(f, s)
