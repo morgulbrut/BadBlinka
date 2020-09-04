@@ -30,8 +30,8 @@ func main() {
 	var template string
 	var pf string
 	var payloads []string
-	flag.StringVar(&template, "t", "code_template.py", "Template for code.py generation")
-	flag.StringVar(&pf, "p", "", "payload files")
+	flag.StringVar(&template, "t", "code_template.py", "Template for code.py generation, see examples in the repository")
+	flag.StringVar(&pf, "p", "", "DuckyScript DuckyScript payloads, get included into yout template as payload_0() to payload_n().")
 	flag.Parse()
 	color.Green(template)
 	color.Green(pf)
