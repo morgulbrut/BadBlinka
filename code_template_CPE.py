@@ -1,5 +1,5 @@
 # Circuit Playground Express template
- 
+
 import time
 import board
 
@@ -7,7 +7,7 @@ import board
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
- 
+
 # Initialize the keyboard stuff
 time.sleep(1)  # Sleep for a bit to avoid a race condition on some systems
 keyboard = Keyboard()
@@ -24,7 +24,7 @@ buttonA.pull = Pull.DOWN
 buttonB.direction = Direction.INPUT
 buttonB.pull = Pull.DOWN
 
-  
+
 pixels = neopixel.NeoPixel(board.NEOPIXEL, 1, brightness=.2)
 pixels.fill((0, 120, 120))
 pixels.show()
