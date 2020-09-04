@@ -1,4 +1,4 @@
-# BadCircuitPython
+# BadBlinka
 PoC for HID attacks in CircuitPython. Because.
 
 ## Files
