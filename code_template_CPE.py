@@ -1,5 +1,7 @@
 # Circuit Playground Express template
 
+from digitalio import DigitalInOut, Direction, Pull
+import neopixel
 import time
 import board
 
@@ -14,8 +16,6 @@ keyboard = Keyboard()
 keyboard_layout = KeyboardLayoutUS(keyboard)  # We're in the US :)
 
 # Imports and initialization for my board and usecase
-import neopixel
-from digitalio import DigitalInOut, Direction, Pull
 
 buttonA = DigitalInOut(board.BUTTON_A)
 buttonB = DigitalInOut(board.BUTTON_B)
@@ -30,22 +30,27 @@ pixels.fill((0, 120, 120))
 pixels.show()
 
 # your payloads go here
-{{ . }}
+{{.}}
 
 
 # My example usecase
 while True:
     if buttonA.value:  # button A is pushed
-        pixels.fill((120,0,0))
-        pixels.show()
-        payload_0()
-        pixels.fill((0,120,0))
-        pixels.show()
+        try:
+            pixels.fill((120, 0, 0))
+            pixels.show()
+            payload_0()
+            pixels.fill((0, 120, 0))
+            pixels.show()
+        except NameError:
+            pass
     if buttonB.value:  # button B is pushed
-        pixels.fill((120,50,0))
-        pixels.show()
-        payload_1()
-        pixels.fill((0,120,50))
-        pixels.show()
+        try:
+            pixels.fill((120, 50, 0))
+            pixels.show()
+            payload_1()
+            pixels.fill((0, 120, 50))
+            pixels.show()
+        except NameError:
+            pass
     time.sleep(.01)
-
